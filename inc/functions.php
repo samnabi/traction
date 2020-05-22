@@ -70,7 +70,7 @@ function sendMail($options) {
   foreach ($options['to'] as $recipient) {
     foreach ($campaign['recipients'] as $r) {
       if ($r['email'] == $recipient) {
-        $body['Text-part'] = $r['salutation']."\n\n".$options['message']."\n\n".$options['address'];
+        $body['Text-part'] = $r['salutation']."\n\n".$options['message']."\n\n".$options['from_name']."\n".$options['from_email']."\n".$options['address'];
         break;
       }
     }
