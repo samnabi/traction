@@ -16,10 +16,22 @@ html { box-sizing: border-box; }
   white-space: nowrap !important;
 }
 
+.hide {
+  display: none !important;
+}
+
 /* Use system font */
 body, input, textarea, button {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 18px;
+}
+
+:root {
+  --background: hsla(125, 100%, 93%, 1);
+  --accent: hsla(125, 50%, 57%, 1);
+  --accentdark: hsla(125, 50%, 42%, 1);
+  --warning: hsla(355, 50%, 57%, 1);
+  --warningdark: hsla(355, 50%, 42%, 1);
 }
 
 html{
@@ -27,11 +39,28 @@ html{
 }
 
 body {
-  background: linear-gradient(palegoldenrod, aquamarine);
+  background-color:var(--background);
+  background-image:
+  radial-gradient(circle at 100% 150%, var(--background) 24%, white 24%, white 28%, var(--background) 28%, var(--background) 36%, white 36%, white 40%, transparent 40%, transparent),
+  radial-gradient(circle at 0    150%, var(--background) 24%, white 24%, white 28%, var(--background) 28%, var(--background) 36%, white 36%, white 40%, transparent 40%, transparent),
+  radial-gradient(circle at 50%  100%, white 10%, var(--background) 10%, var(--background) 23%, white 23%, white 30%, var(--background) 30%, var(--background) 43%, white 43%, white 50%, var(--background) 50%, var(--background) 63%, white 63%, white 71%, transparent 71%, transparent),
+  radial-gradient(circle at 100% 50%, white 5%, var(--background) 5%, var(--background) 15%, white 15%, white 20%, var(--background) 20%, var(--background) 29%, white 29%, white 34%, var(--background) 34%, var(--background) 44%, white 44%, white 49%, transparent 49%, transparent),
+  radial-gradient(circle at 0    50%, white 5%, var(--background) 5%, var(--background) 15%, white 15%, white 20%, var(--background) 20%, var(--background) 29%, white 29%, white 34%, var(--background) 34%, var(--background) 44%, white 44%, white 49%, transparent 49%, transparent);
+  background-size: 100px 50px;
+  margin: 0;
+}
+
+main {
+  background-color: rgba(255,255,255,0.9);
+  border: 1px solid var(--background);
+  border-radius: 0.2em;
+  max-width: 30em;
+  margin: 1em auto 3em;
+  padding: 0 0 1em;
 }
 
 a {
-  color: navy;
+  color: var(--accentdark);
   text-decoration: none;
 }
 
@@ -42,17 +71,32 @@ legend {
   margin: 1em 0;
   font-size: 0.8em;
   color: rgba(0,0,0,0.9);
-  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.label {
+  margin: 0 0 0.5em;
 }
 
 .checkbox-label {
-  display: block;
+  display: inline-block;
   margin-bottom: 0.25em;
+  border-radius: 0.2rem;
+  background-color: var(--background);
+  padding: 0.2em 0.5em;
   font-size: 0.8em;
 }
 
+.checkbox-label input {
+  display: inline-block;
+  vertical-align: middle;
+  margin: -0.2em 0 0;
+}
+
 input[type="text"],
+input[type="password"],
 input[type="email"],
+input[type="url"],
 textarea {
   border: 1px solid rgba(0,0,0,0.3);
   border-radius: 0.2em;
@@ -61,17 +105,42 @@ textarea {
   width: 100%;
 }
 
+input[readonly] {
+  background-color: rgba(0,0,0,0.1);
+  font-size: 0.8em;
+  color: rgba(0,0,0,0.5);
+}
+
 textarea {
-  height: 20em;
-  font-size: 16px;
+  height: 15em;
   padding-top: 0.75em;
   margin-top: 0;
+}
+
+.help {
+  font-style: italic;
+  color: rgba(0,0,0,0.7);
+  font-size: 0.8em;
+  display: block;
+  margin-top: 0.25rem;
 }
 
 .flex {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.gap {
+  gap: 1em;
+}
+
+.gap--small {
+  gap: 0.5em;
 }
 
 .flex > * {
@@ -88,54 +157,71 @@ textarea {
 form,
 .social,
 .success {
-  max-width: 30em;
   margin: 1em auto;
-  padding: 2em 0.5em;
-  background: rgba(0,0,0,0.1);
-  border-radius: 0.2em;
+  padding: 0 1em;
 }
 
 @media (min-width: 60em) {
   form,
   .social,
   .success {
-    padding: 2em;
+    padding: 0 2em;
   }
+}
+
+.notice {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.5em;
+}
+
+.notice.error {
+  background-color: var(--warning);
 }
 
 fieldset {
   border: 0;
   padding:  0;
-  margin:  0 0 1em;
+  margin: 1em 0;
 }
 
 button,
-.btn {
-  border: 1px solid rgba(0,0,0,0.3);
-  background-color: rgba(0,0,0,0.4);
-  background-image: linear-gradient(transparent, rgba(0,0,0,0.3));
-  color: white;
-  text-shadow: 0 1px black;
-  text-decoration: none;
+.btn,
+summary {
+  position: relative;
   display: inline-block;
-  padding: 0.5em 2em;
-  font-size: 24px;
-  border-radius: 0.2em;
-  margin: 0 auto;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  color: #FFF;
+  background: var(--accent);
+  border-radius: 4px;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  font-weight: bold;
+  border: solid 2px var(--accentdark);
 }
 
-button:hover,
-button:focus,
-.btn:focus,
-.btn:hover {
-  background-color: rgba(0,0,0,0.6);
-  background-image: linear-gradient(transparent, rgba(0,0,0,0.5));
+button svg,
+.btn svg,
+summary svg {
+  fill: rgba(0,0,0,0.5);
+}
+
+button.warning,
+.btn.warning,
+summary.warning {
+  background: var(--warning);
+  border: solid 2px var(--warningdark);
 }
 
 button:active,
-.btn:active {
-  background-color: rgba(0,0,0,0.6);
-  background-image: linear-gradient(rgba(0,0,0,0.5), transparent);
+.btn:active,
+summary:active {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
+}
+
+.social {
+  margin: 2em 0 1em;
+  border-left: 2px solid var(--accent);
 }
 
 blockquote {
@@ -144,22 +230,30 @@ blockquote {
   line-height: 1.5;
 }
 
-h1 {
+h1, h2 {
   margin-top: 0;
 }
 
-h1.logo {
-  margin: 1rem 1rem 0;
+.logo {
+  margin: 0;
+  padding-top: 0.5rem;
   text-align: center;
 }
 
 .logo img {
   max-width: 15rem;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (min-width: 60em) {
+  .logo {
+    padding-top: 1rem;
+  }
 }
 
 .message_salutation {
   font-size: 1rem;
-  text-transform: none;
   margin-bottom: 0;
   background: white;
   border: 1px solid rgba(0,0,0,0.3);
@@ -169,6 +263,13 @@ h1.logo {
   margin-top: 0.25em;
   cursor: not-allowed;
   color: grey;
+  font-weight: normal;
+}
+
+hr {
+  background-color: rgba(0,0,0,0.1);
+  height: 1px;
+  border: 0;
 }
 
 .message_salutation + textarea {
@@ -182,8 +283,140 @@ h1.logo {
   background: transparent;
 }
 
-.recipients-list {
-  max-height: 10em;
-  max-height: 20vh;
-  overflow-y: auto;
+.tpl--edit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.tpl--edit aside {
+  max-width: 15em;
+  margin: 1em 0;
+  background-color: rgba(255,255,255,0.9);
+  border: 1px solid var(--background);
+  padding: 1em;
+}
+
+.tpl--edit aside h2 {
+  margin-bottom: 1rem;
+}
+
+.tpl--edit aside ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tpl--edit aside li {
+  padding: 0.5em 0;
+}
+
+.tpl--edit aside li.active {
+  margin-left: -1em;
+  margin-right: -1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: var(--accent);
+}
+
+.tpl--edit aside li.active a {
+  color: white;
+}
+
+.tpl--edit aside form {
+  padding: 0;
+}
+
+.tpl--edit main {
+  max-width: 40em;
+  margin: 1em 0 3em;
+}
+
+.tpl--edit label > span:first-child {
+  font-size: 0.8em;
+  display: block;
+  font-weight: bold;
+  margin: 0;
+}
+
+.tpl--edit textarea {
+  margin-top: 0.25em;
+}
+
+.tpl--edit label + label {
+  display: block;
+  margin-top: 1em;
+}
+
+.tpl--edit legend {
+  font-size: 1.5em;
+  padding: 0;
+}
+
+.recipients {
+  counter-reset: recipients;
+}
+
+.recipient--template {
+  display: none;
+}
+
+.recipient {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5em;
+  margin: 0;
+  padding-left: 2em;
+  position: relative;
+}
+
+.recipient::before {
+  position: absolute;
+  top: -0.1em;
+  left: 0;
+  width: 1.5em;
+  text-align: center;
+  color: var(--accent);
+  counter-increment: recipients;
+  content: counter(recipients);
+}
+
+.recipient + .recipient {
+  margin-top: 1.5em;
+}
+
+.recipient label + label {
+  margin: 0;
+}
+
+.recipient label:last-child {
+  grid-column: span 2;
+}
+
+button[data-action="add_recipient"] {
+  margin-left: 2em;
+  margin-top: 1.5em;
+}
+
+details[open] summary {
+  display: none;
+}
+
+summary {
+  cursor: default;
+  padding: 0.25em 0.75em;
+  font-size: 0.8em;
+}
+
+summary::marker {
+  display: none;
+  content: '';
+}
+
+.logo-preview {
+  display: block;
+  width: 50%;
+  margin: 0.25em 0;
 }

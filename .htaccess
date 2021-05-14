@@ -1,0 +1,5 @@
+# Block direct access to .yml files
+<FilesMatch "\.(?:yml)$">
+Order allow,deny
+Deny from all
+</FilesMatch>

@@ -35,21 +35,14 @@ All dependencies are included, so we don't need to load them with submodules or 
 
 ### 3. Set up the config file
 
-Site-wide settings are defined in `config.php`.
+Site-wide settings are defined in `settings.yml`.
 
-```php
-<?php
-
-// Config settings
-$settings = [
-  'title' => 'Your site title',
-  'logo' => 'logo.png', // Path to logo, relative to index.php
-  'mailjet.key.public' => 'xxxxxxxxxx', // Find your API keys: https://app.mailjet.com/account/api_keys
-  'mailjet.key.secret' => 'xxxxxxxxxx', // Find your API keys: https://app.mailjet.com/account/api_keys
-  'mailjet.email.from' => 'you@example.com', // Must be an active sender address in Mailjet: https://app.mailjet.com/account/sender
-];
-
-?>
+```yaml
+title: Your organization name
+logo: filename.png
+mailjet_key_public: xxxxxxxxx
+mailjet_key_secret: xxxxxxxxx
+mailjet_email_from: your@email.com
 ```
 
 ### 3. Set up your first campaign

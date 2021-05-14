@@ -7,12 +7,17 @@ error_reporting(E_ERROR);
  *
  * @return array Data from active campaign file
  */
-function getCampaign() {
+function getCampaign($slug = '') {
   // Define path to campaigns dirctory
   $campaigns_directory = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'campaigns';
 
   // try to get campaign from query string
-  $campaign_path = $campaigns_directory.DIRECTORY_SEPARATOR.$_GET['campaign'].'.yml';
+  if ($slug == '' and isset($_GET['campaign'])) $slug = $_GET['campaign'];
+
+  // if it's still empty, return null
+  if ($slug == '') return null;
+
+  $campaign_path = $campaigns_directory.DIRECTORY_SEPARATOR.$slug.'.yml';
   if (f::exists($campaign_path)) {
     // File exists
     $campaign = yaml::read($campaign_path);
@@ -20,10 +25,17 @@ function getCampaign() {
     // Otherwise, use the first available campaign
     $campaigns = dir::read($campaigns_directory, ['.', '..']);
     foreach ($campaigns as $file) {
-      $campaign = yaml::read($campaigns_directory.DIRECTORY_SEPARATOR.$file);
+      $filename_parts = str::split($file, '.');
+      $slug = $filename_parts[0];
+      $campaign_path = $campaigns_directory.DIRECTORY_SEPARATOR.$file;
+      $campaign = yaml::read($campaign_path);
       break;
     }
   }
+
+  // Add some metadata to the return value
+  $campaign['slug'] = $slug;
+  $campaign['path'] = $campaign_path;
 
   return $campaign;
 }
@@ -54,11 +66,11 @@ function sendMail($options) {
   $options['address'] = htmlspecialchars($options['address']);
 
   // Connect to Mailjet
-  $mj = new \Mailjet\Client($settings['mailjet.key.public'], $settings['mailjet.key.secret']);
+  $mj = new \Mailjet\Client($settings['mailjet_key_public'], $settings['mailjet_key_secret']);
 
   // Define common fields for all messages
   $body = [
-    'FromEmail' => $settings['mailjet.email.from'],
+    'FromEmail' => $settings['mailjet_email_from'],
     'FromName' => $options['from_name'],
     'Subject' => htmlspecialchars_decode($options['subject']),
     'Headers' => ["Reply-To" => $options['from_email']]

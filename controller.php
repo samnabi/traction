@@ -4,9 +4,9 @@
 error_reporting(E_ERROR);
 
 // Include settings and helper functions
-require_once('config.php');
 require_once('inc/toolkit/bootstrap.php');
 require_once('inc/functions.php');
+$settings = yaml::read('settings.yml');
 
 // Honeypot trap for spambots
 // address2 is a fake field that isn't actually used for form submission
@@ -32,5 +32,10 @@ if(isset($_POST['submit'])) {
 
 // Load campaign data
 $campaign = getCampaign();
+
+// Check that there is actually a campaign
+if ($campaign == null) {
+  header::redirect('edit.php');
+}
 
 ?>
