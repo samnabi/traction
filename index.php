@@ -12,9 +12,10 @@
       // On success, force a redirect so reloading doesn't cause the form to be submitted twice 
       $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https') === FALSE ? 'http' : 'https';
       $host     = $_SERVER['HTTP_HOST'];
+      $path = $_SERVER['SCRIPT_NAME'];
       $params   = $_SERVER['QUERY_STRING'];
     ?>
-    <meta http-equiv="refresh" content="0; url=<?= $protocol.'://'.$host.'?'.$params ?>&success=true">
+    <meta http-equiv="refresh" content="0; url=<?= $protocol.'://'.$host.$path.'?'.$params ?>&success=true">
   <?php } ?>
 </head>
 <body>
