@@ -1,7 +1,6 @@
-title: Sam Nabi
+title: null
 logo: null
-mailjet_key_public: asdf
-mailjet_key_secret: asdf
-mailjet_email_from: asdf@samnabi.com
-password: >
-  $2y$10$515e8lwrI4FcYc/sUgItbuVdG13ADG2kyEnUL.6LeYTTO4EfX3uX.
+mailjet_key_public: null
+mailjet_key_secret: null
+mailjet_email_from: null
+password: null

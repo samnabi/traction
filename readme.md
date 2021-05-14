@@ -5,9 +5,9 @@ A self-hosted, file-based solution for mass email campaigns.
 - Let people send the same email to multiple recipients with the click of a button
 - Recipients get individual emails with a personalized salutation
 - Users can edit the default message and subject line before sending, to add legitimacy & personality
-- Each campaign's data is stored in a `.yml` text file
+- Campaign data and site settings are stored in a `.yml` text file
 - The user's email address is listed in the reply-to field, so recipients can reply like normal and continue the conversation
-- Reliable email delivery via Mailjet
+- Reliable email delivery via Mailjet integration
 
 Traction was developed for [Hold The Line Waterloo Region](https://holdthelinewr.org)'s campaign against Bill 66. We coordinated with dozens of local advocacy groups. Community members sent over 18,000 emails to local mayors, councillors, and members of provincial parliament. In less than a month, Bill 66 was amended to respect our demands.
 
@@ -23,7 +23,7 @@ Traction uses the third-party email service [Mailjet](https://mailjet.com) to se
 
 You can send up to 200 emails per day with a [free account](https://www.mailjet.com/pricing/). 
 
-### 2. Add the entire repo to your server.
+### 2. Add the entire repo to your server's document root
 
 If you're using git, `cd` into your desired directory and copy this repo:
 
@@ -33,9 +33,13 @@ git clone https://github.com/samnabi/traction.git .
 
 All dependencies are included, so we don't need to load them with submodules or composer or anything like that.
 
-### 3. Set up the config file
+*Note: it's best to install this in the document root of a domain or subdomain. Some links may not work if you install it into a subfolder.*
 
-Site-wide settings are defined in `settings.yml`.
+### 3. Set up your settings
+
+When you first point your browser to `index.php`, it should ask you to create a password. Once logged in, it will redirect you to `account.php`, where you can enter your Mailjet settings, as well as the site-wide settings such as your organization name and logo.
+
+All account settings are stored in the `settings.yml` file, which looks like this:
 
 ```yaml
 title: Your organization name
@@ -43,13 +47,14 @@ logo: filename.png
 mailjet_key_public: xxxxxxxxx
 mailjet_key_secret: xxxxxxxxx
 mailjet_email_from: your@email.com
+password: passwordhash
 ```
 
-### 3. Set up your first campaign
+### 4. Set up your first campaign
 
-Campaign data is stored under `campaigns/` in YAML files, using the `.yml` extension. There is one file per campaign.
+From `account.php` or `edit.php`, you can create a new campaign from the sidebar. It will redirect you to `edit.php`, where you can enter all the Campaign information in a web form.
 
-A template is provided for you in `campaigns/test.yml`.
+Campaign data is stored under `campaigns/` in YAML files, using the `.yml` extension. There is one file per campaign. This is what the data files look like:
 
 ```yaml
 title: A title for your campaign
@@ -96,6 +101,7 @@ After submitting, the user is prompted to share the campaign on Twitter or Faceb
 
 - PHP 5.4+
 - Mailjet account
+- Apache server with `.htaccess`
 
 
 ## Dependencies
