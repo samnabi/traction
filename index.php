@@ -7,14 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
   
+  <?php
+    // On success, force a redirect so reloading doesn't cause the form to be submitted twice 
+    $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https') === FALSE ? 'http' : 'https';
+    $host     = $_SERVER['HTTP_HOST'];
+    $path = $_SERVER['SCRIPT_NAME'];
+    $params   = $_SERVER['QUERY_STRING'];
+  ?>
   <?php if (isset($success)) { ?>
-    <?php
-      // On success, force a redirect so reloading doesn't cause the form to be submitted twice 
-      $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https') === FALSE ? 'http' : 'https';
-      $host     = $_SERVER['HTTP_HOST'];
-      $path = $_SERVER['SCRIPT_NAME'];
-      $params   = $_SERVER['QUERY_STRING'];
-    ?>
     <meta http-equiv="refresh" content="0; url=<?= $protocol.'://'.$host.$path.'?'.$params ?>&success=true">
   <?php } ?>
 </head>
@@ -116,6 +116,14 @@
   <?php } ?>
 
 </main>
+
+<aside>
+  <details>
+    <summary>Embed this form</summary>
+    <h3>Copy this code to embed this form on another website</h3>
+    <pre>&lt;iframe src="<?= $protocol.'://'.$host.$path.'?'.$params ?>" style="width:100%;border:2px solid hsl(125,100%,93%);border-radius:10px;height:90vh;">&lt;/iframe></pre>
+  </details>
+</aside>
 
 </body>
 </html>
