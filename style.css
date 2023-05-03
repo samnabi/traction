@@ -115,11 +115,15 @@ input[readonly] {
 textarea {
   height: 15em;
   padding-top: 0.75em;
-  margin-top: 0;
+}
+
+li + li {
+  margin-top: 1em;
 }
 
 .help {
   font-style: italic;
+  font-weight: normal;
   color: rgba(0,0,0,0.7);
   font-size: 0.8em;
   display: block;
@@ -171,12 +175,16 @@ form,
 }
 
 .notice {
+  padding: 0.5em 1em;
+}
+
+.notice.success {
   background-color: var(--accent);
   color: white;
-  padding: 0.5em;
 }
 
 .notice.error {
+  color: white;
   background-color: var(--warning);
 }
 
@@ -253,29 +261,10 @@ h1, h2 {
   }
 }
 
-.message_salutation {
-  font-size: 1rem;
-  margin-bottom: 0;
-  background: white;
-  border: 1px solid rgba(0,0,0,0.3);
-  border-bottom: 0;
-  border-radius: 0.2em 0.2em 0 0;
-  padding: 0.5em 0.75em;
-  margin-top: 0.25em;
-  cursor: not-allowed;
-  color: grey;
-  font-weight: normal;
-}
-
 hr {
   background-color: rgba(0,0,0,0.1);
   height: 1px;
   border: 0;
-}
-
-.message_salutation + textarea {
-  margin-top: 0;
-  border-top: 0;
 }
 
 .success form {
