@@ -44,54 +44,35 @@ function getCampaign($slug = '') {
  * Helper function for sending mail to multiple recipients through the Mailjet API
  *
  * @param array $options (from_name, from_email, to, subject, message, address)
- * @return Mailjet response object
+ * @return Mailto link
  */
-require('mailjet/vendor/autoload.php');
-use \Mailjet\Resources;
-function sendMail($options) {
-
-  // Grab the settings from config.php
-  global $settings;
+function getMailtoLink($options) {
+  $campaign = getCampaign();
 
   // Validate and santize input
   $options['from_name'] = filter_var($options['from_name'], FILTER_SANITIZE_STRING);
   $options['from_email'] = filter_var($options['from_email'], FILTER_SANITIZE_EMAIL);
   $options['from_email'] = filter_var($options['from_email'], FILTER_VALIDATE_EMAIL);
+  $recipients = [];
   foreach ($options['to'] as $key => $recipient) {
-    $options['to'][$key] = filter_var($recipient, FILTER_SANITIZE_EMAIL);
-    $options['to'][$key] = filter_var($recipient, FILTER_VALIDATE_EMAIL);
+    $recipients[$key] = filter_var($recipient, FILTER_SANITIZE_EMAIL);
+    $recipients[$key] = filter_var($recipients[$key], FILTER_VALIDATE_EMAIL);
   }
-  $options['subject'] = htmlspecialchars($options['subject']);
-  $options['message'] = htmlspecialchars($options['message']);
-  $options['address'] = htmlspecialchars($options['address']);
+  $options['subject'] = filter_var($options['subject'], FILTER_SANITIZE_STRING);
+  $options['message'] = str_replace("\n", "%0A", filter_var($options['message'], FILTER_SANITIZE_STRING));
+  $options['address'] = filter_var($options['address'], FILTER_SANITIZE_STRING);
 
-  // Connect to Mailjet
-  $mj = new \Mailjet\Client($settings['mailjet_key_public'], $settings['mailjet_key_secret']);
-
-  // Define common fields for all messages
-  $body = [
-    'FromEmail' => $settings['mailjet_email_from'],
-    'FromName' => $options['from_name'],
-    'Subject' => htmlspecialchars_decode($options['subject']),
-    'Headers' => ["Reply-To" => $options['from_email']]
-  ];
-
-  // Build each message
-  $messages = [];
-  $campaign = getCampaign();
-  foreach ($options['to'] as $recipient) {
-    foreach ($campaign['recipients'] as $r) {
-      if ($r['email'] == $recipient) {
-        $body['Text-part'] = $r['salutation']."\n\n".$options['message']."\n\n".$options['from_name']."\n".$options['from_email']."\n".$options['address'];
-        break;
-      }
-    }
-    $body['Recipients'] = [['Email' => $recipient]];
-    $messages[] = $body;
-  }
-
-  // Send all messages
-  $response = $mj->post(Resources::$Email, ['body' => ['Messages' => $messages]]);
+  // Generate link
+  $response = 'mailto:'.$options['from_email'].
+    '?cc='.$campaign['email'].
+    '&bcc='.implode(',', $recipients).
+    '&subject='.$options['subject'].
+    '&body='.
+      $options['message'].urlencode("\n\n").
+      'Sincerely,'.urlencode("\n\n").
+      $options['from_name'].urlencode("\n").
+      $options['from_email'].urlencode("\n").
+      $options['address'];
 
   return $response;
 }
