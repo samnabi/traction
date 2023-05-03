@@ -9,8 +9,8 @@ require_once('inc/functions.php');
 $settings = yaml::read('settings.yml');
 
 // Honeypot trap for spambots
-// address2 is a fake field that isn't actually used for form submission
-if (isset($_POST['address2']) and $_POST['address2'] != null) die;
+// last_name is a fake field that isn't actually used for form submission
+if (isset($_POST['last_name']) and $_POST['last_name'] != null) die;
 
 // Handle form submission
 if(isset($_POST['submit'])) {

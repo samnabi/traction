@@ -83,7 +83,7 @@
         <input type="text" name="address" value="">
       </label>
 
-      <input type="text" name="address2" class="sr-only" title="Do not fill this field out. It is a trap for spam bots.">
+      <input type="text" name="last_name" class="sr-only" title="Do not fill this field out">
 
       <button name="submit" type="submit">Send emails</button>
 
