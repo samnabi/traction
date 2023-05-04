@@ -3,7 +3,3 @@
 Order allow,deny
 Deny from all
 </FilesMatch>
-
-# Prettify campaign urls
-RewriteEngine On
-RewriteRule ^c/(?)$ /?campaign=$1

@@ -17,14 +17,27 @@
     
     // Grab campaign data
     $campaign = [
+      'organization' => $_POST['organization'],
+      'email' => $_POST['email'],
+      'logo' => $c['logo'],
       'title' => $_POST['title'],
       'info' => $_POST['info'],
       'subject' => $_POST['subject'],
       'message' => $_POST['message'],
       'social_text' => $_POST['social_text'],
-      'social_url' => $_POST['social_url'],
       'twitter' => $_POST['twitter']
     ];
+
+    // Grab new logo
+    // Todo: size, type checks
+    if ($_FILES['logo']['tmp_name']) {
+      f::remove($campaign['logo']);
+      f::copy($_FILES['logo']['tmp_name'], $_FILES['logo']['name']);
+      $campaign['logo'] = $_FILES['logo']['name'];
+    } else if ($_POST['remove_logo'] == 'true') {
+      f::remove($campaign['logo']);
+      $campaign['logo'] = null;
+    }
 
     // Reformat recipients info
     $recipients = [];
@@ -69,7 +82,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body class="tpl--edit">
 
@@ -108,7 +121,7 @@
 
   <main>
     <?php if ($c['slug']) { ?>
-      <form action="" method="POST">
+      <form action="" method="POST" enctype="multipart/form-data">
         
         <fieldset>
           <label>
@@ -120,6 +133,39 @@
         <button type="submit">Save changes</button>
 
         <fieldset>
+          <legend>Organization</legend>
+          <label>
+            <span>Organization name</span>
+            <input name="organization" type="text" value="<?= $campaign['organization'] ?>">
+          </label>
+          <label>
+            <span>Organization email</span>
+            <span class="help">This email address will be <abbr title="Carbon copied">CC</abbr>ed on all messages by default</span>
+            <input name="email" type="email" value="<?= $campaign['email'] ?>">
+          </label>
+          <?php if ($campaign['logo']) { ?>
+            <label>
+              <span>Logo</span>
+              <img class="logo-preview" src="<?= $campaign['logo'] ?>" />
+              <details>
+                <summary>Change logo</summary>
+                <input name="logo" type="file">
+              </details>
+            </label>
+            <label>
+              <input type="checkbox" name="remove_logo" value="true">
+              Remove logo
+            </label>
+          <?php } else { ?>
+            <label>
+              <span>Logo</span>
+              <img class="logo-preview" src="<?= $campaign['logo'] ?>" />
+              <input name="logo" type="file">
+            </label>
+          <?php } ?>
+        </fieldset>
+
+        <fieldset>
           <legend>Campaign info</legend>
           <label>
             <span>Title</span>
@@ -127,8 +173,8 @@
           </label>
           <label>
             <span>Campaign description</span>
-            <textarea name="info"><?= $c['info'] ?></textarea>
             <span class="help">This is the message people see above the form. Use it to introduce the topic and convince them to send a message.</span>
+            <textarea name="info"><?= $c['info'] ?></textarea>
           </label>
         </fieldset>
         <fieldset class="recipients">
@@ -144,10 +190,6 @@
               <span>Email</span>
               <input type="email" placeholder="recipient@mail.com">
             </label>
-            <label>
-              <span>Salutation</span>
-              <input type="text" placeholder="Dear Ms. Campell,">
-            </label>
           </fieldset>
 
           <?php foreach($c['recipients'] as $key => $recipient) { ?>
@@ -159,10 +201,6 @@
               <label>
                 <span>Email</span>
                 <input type="email" name="recipient_email_<?= $key ?>" value="<?= $recipient['email'] ?>">
-              </label>
-              <label>
-                <span>Salutation</span>
-                <input type="text" name="recipient_salutation_<?= $key ?>" value="<?= $recipient['salutation'] ?>">
               </label>
             </fieldset>
           <?php } ?>
@@ -178,20 +216,18 @@
           </label>
           <label>
             <span>Message</span>
+            <p>Good morning/afternoon/evening,</p>
             <textarea name="message"><?= $c['message'] ?></textarea>
+            <p>Sincerely,</p>
+            <p>Participant name</p>
           </label>
         </fieldset>
         <fieldset>
           <legend>Social media template</legend>
           <label>
             <span>Social text</span>
-            <textarea name="social_text"><?= $c['social_text'] ?></textarea>
             <span class="help">This is a message that will be pre-populated in social media posts, should the user choose to share the campaign.</span>
-          </label>
-          <label>
-            <span>Social link</span>
-            <input name="social_url" type="url" value="<?= $c['social_url'] ?>">
-            <span class="help">This link will be attached to the social media post.</span>
+            <textarea name="social_text"><?= $c['social_text'] ?></textarea>
           </label>
           <label>
             <span>Twitter name</span>
@@ -233,7 +269,6 @@
         // Add new input names
         new_recipient_node.querySelector('label:first-child input[type="text"]').name = 'recipient_name_' + new_recipient_key;
         new_recipient_node.querySelector('input[type="email"]').name = 'recipient_email_' + new_recipient_key;
-        new_recipient_node.querySelector('label:last-child input[type="text"]').name = 'recipient_salutation_' + new_recipient_key;
       });
     }
   </script>

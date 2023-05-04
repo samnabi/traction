@@ -14,19 +14,18 @@ if (isset($_POST['last_name']) and $_POST['last_name'] != null) die;
 
 // Handle form submission
 if(isset($_POST['submit'])) {
-  $email = sendMail([
-    'from_name' => $_POST['name'],
-    'from_email' => $_POST['email'],
-    'to' => $_POST['recipients'],
-    'subject' => $_POST['subject'],
-    'message' => $_POST['message'],
-    'address' => $_POST['address']
-  ]);
-
-  if (isset($email) and $email->success()) {
+  try {
+    $link = getMailtoLink([
+      'from_name' => $_POST['name'],
+      'from_email' => $_POST['email'],
+      'to' => $_POST['recipients'],
+      'subject' => $_POST['subject'],
+      'message' => $_POST['message'],
+      'address' => $_POST['address']
+    ]);
     $success = true;
-  } else {
-    $error = true;
+  } catch (Exception $e) {
+    $error = true;    
   }
 }
 
@@ -35,7 +34,7 @@ $campaign = getCampaign();
 
 // Check that there is actually a campaign
 if ($campaign == null) {
-  header::redirect('edit.php');
+  //header::redirect('edit.php');
 }
 
 ?>
