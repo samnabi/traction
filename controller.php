@@ -34,7 +34,7 @@ $campaign = getCampaign();
 
 // Check that there is actually a campaign
 if ($campaign == null) {
-  header::redirect('edit.php');
+  header::redirect('listing.php');
 }
 
 ?>

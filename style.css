@@ -421,3 +421,29 @@ pre {
   white-space: normal;
   word-break: break-all;
 }
+
+.listing {
+  text-align: center;
+  padding: 0;
+  list-style: none;
+}
+
+.listing li {
+  margin-bottom: 1em;
+}
+
+.listing img {
+  width: 10em;
+}
+
+.listing strong,
+.listing img,
+.listing span {
+  display: block;
+  margin: 0.5em auto;
+}
+
+.listing .btn {
+  display: inline-block;
+}
+
