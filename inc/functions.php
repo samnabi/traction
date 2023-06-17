@@ -71,7 +71,6 @@ function getMailtoLink($options) {
       $options['message'].urlencode("\n\n").
       'Sincerely,'.urlencode("\n\n").
       $options['from_name'].urlencode("\n").
-      $options['from_email'].urlencode("\n").
       $options['address'];
 
   return $response;
