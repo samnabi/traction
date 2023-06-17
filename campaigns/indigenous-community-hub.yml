@@ -1,3 +1,6 @@
+organization: O:se Kenhionhata:tie Land Back Camp
+email: ose.kenhionhatatie@gmail.com
+logo: landbackcamplogo.webp
 title: >
   Create an Indigenous community hub at
   Charles Street Terminal
@@ -38,109 +41,90 @@ message: |
   
   - The creation and sustainability of Indigenous Community Hub
 social_text: 'We call on the Region of Waterloo to support and lead alongside the Indigenous community in creating an Indigenous community hub in the heart of Kitchener:'
-social_url: >
-  https://traction.samnabi.com/?campaign=indigenous-community-hub
 twitter: ""
 recipients:
   - 
     name: Mayor Natasha Salonen (Wilmot)
     email: NSalonen@regionofwaterloo.ca
-    salutation: Dear Mayor Salonen,
   - 
     name: >
       Councillor Colleen James (Region of
       Waterloo)
     email: CJames@regionofwaterloo.ca
-    salutation: Dear Councillor James,
   - 
     name: Councillor Jim Erb (Region of Waterloo)
     email: JErb@regionofwaterloo.ca
-    salutation: 'Dear Councillor Erb, '
   - 
     name: Mayor Sue Foxton (North Dumfries)
     email: SFoxton@regionofwaterloo.ca
-    salutation: Dear Mayor Foxton,
   - 
     name: >
       Councillor Robert Deutschmann (Region of
       Waterloo)
     email: RDeutschmann@regionofwaterloo.ca
-    salutation: Dear Councillor Deutschmann,
   - 
     name: >
       Councillor Michael Harris (Region of
       Waterloo)
     email: MHarris@regionofwaterloo.ca
-    salutation: 'Dear Councillor Harris, '
   - 
     name: >
       Councillor Doug Craig (Region of
       Waterloo)
     email: DougCraig@regionofwaterloo.ca
-    salutation: Dear Councillor Craig,
   - 
     name: Mayor Dorothy McCabe (Waterloo)
     email: DMcCabe@regionofwaterloo.ca
-    salutation: Dear Mayor McCabe,
   - 
     name: Councillor Pam Wolf (Region of Waterloo)
     email: PWolf@regionofwaterloo.ca
-    salutation: Dear Councillor Wolf,
   - 
     name: >
       Councillor Kari Williams (Region of
       Waterloo)
     email: KariWilliams@regionofwaterloo.ca
-    salutation: Dear Councillor Williams,
   - 
     name: Mayor Jan Liggett (Cambridge)
     email: JLiggett@regionofwaterloo.ca
-    salutation: Dear Mayor Liggett,
   - 
     name: Mayor Joe Nowak (Wellesley)
     email: JoNowak@regionofwaterloo.ca
-    salutation: Dear Mayor Nowak,
   - 
     name: Mayor Sandy Shantz (Woolwich)
     email: SShantz@regionofwaterloo.ca
-    salutation: Dear Mayor Shantz,
   - 
     name: >
       Councillor Chantal Huinink (Region of
       Waterloo)
     email: CHuinink@regionofwaterloo.ca
-    salutation: 'Dear Councillor Huinink, '
   - 
     name: >
       Mayor Berry Vrbanovic (Region of
       Waterloo)
     email: BVrbanovic@regionofwaterloo.ca
-    salutation: Dear Mayor Vrbanovic,
   - 
     name: Chair Karen Redman (Region of Waterloo)
     email: KRedman@regionofwaterloo.ca
-    salutation: Dear Chair Redman,
   - 
     name: >
       Kara Mclean, Manager, Intergovernmental
       Relations (Region of Waterloo)
     email: kmclean@regionofwaterloo.ca
-    salutation: Dear Ms. Mclean,
   - 
     name: >
       Helen Chimirri-Russell, Director,
       Cultural Services (Region of Waterloo)
     email: hchimirrirussell@regionofwaterloo.ca
-    salutation: Dear Ms. Chimirri-Russell,
   - 
     name: >
       Tracey Segeren, Manager, Property
       Management (Region of Waterloo)
     email: tsegeren@regionofwaterloo.ca
-    salutation: Dear Ms. Segeren,
   - 
     name: >
       Sarah Millar, Manager, Land Portfolio
       (Region of Waterloo)
     email: smillar@regionofwaterloo.ca
-    salutation: Dear Ms. Millar,
+  - 
+    name: Sam Nabi
+    email: sam@samnabi.com
