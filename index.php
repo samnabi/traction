@@ -65,9 +65,9 @@
           // Initialize greeting
           var d = new Date();
           var hour = d.getHours();
-          if (d < 12) {
+          if (hour < 12) {
             var greeting = 'Good morning,' + "\n\n";
-          } else if (d < 17) {
+          } else if (hour < 17) {
             var greeting = 'Good afternoon,' + "\n\n";
           } else {
             var greeting = 'Good evening,' + "\n\n";
