@@ -23,7 +23,7 @@ function getCampaign($slug = '') {
     $campaign = yaml::read($campaign_path);
   } else {
     // Otherwise, use the first available campaign
-    $campaigns = dir::read($campaigns_directory, ['.', '..']);
+    $campaigns = dir::read($campaigns_directory, ['.', '..', '.gitkeep']);
     foreach ($campaigns as $file) {
       $filename_parts = str::split($file, '.');
       $slug = $filename_parts[0];
