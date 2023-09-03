@@ -24,7 +24,7 @@
       require_once('inc/toolkit/bootstrap.php');
       require_once('inc/functions.php');
     ?>
-    <?php $campaigns = array_diff(scandir('campaigns'), ['.', '..']); ?>
+    <?php $campaigns = array_diff(scandir('campaigns'), ['.', '..', '.gitkeep']); ?>
     <ul class="listing">
       <?php foreach($campaigns as $campaign_file) { ?>
         <?php $slug = str_replace('.yml', '', $campaign_file); ?>

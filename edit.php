@@ -90,7 +90,7 @@
     <section>
       <h2>Campaigns</h2>
       <ul>
-        <?php $campaigns = array_diff(scandir('campaigns'), ['.', '..']); ?>
+        <?php $campaigns = array_diff(scandir('campaigns'), ['.', '..', '.gitkeep']); ?>
         <?php foreach($campaigns as $campaign_file) { ?>
           <?php $slug = str_replace('.yml', '', $campaign_file); ?>
           <?php $campaign = getCampaign($slug) ?>
