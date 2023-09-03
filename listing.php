@@ -1,3 +1,7 @@
+<?php
+    require_once('inc/toolkit/bootstrap.php');
+    require_once('inc/functions.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,15 +19,11 @@
 </head>
 <body>
 
+<h1 class="logo"><?= f::read('petitiontown.svg') ?></h1>
+
 <main>
 
-  <h1 class="logo">Petition Town!</h1>
-
   <div class="notice">
-    <?php
-      require_once('inc/toolkit/bootstrap.php');
-      require_once('inc/functions.php');
-    ?>
     <?php $campaigns = array_diff(scandir('campaigns'), ['.', '..', '.gitkeep']); ?>
     <ul class="listing">
       <?php foreach($campaigns as $campaign_file) { ?>
@@ -50,7 +50,11 @@
 </main>
 
 <aside>
-  <p>Petition Town is hosted by <a href="https://samnabi.com">Sam Nabi</a> on the Haldimand Tract, territory of the <a href="https://native-land.ca/maps/territories/attiwonderonk-neutral/">Chonnonton</a>, <a href="https://native-land.ca/maps/territories/haudenosauneega-confederacy/">Haudenosaunee</a>, and <a href="https://native-land.ca/maps/territories/anishinabek-%e1%90%8a%e1%93%82%e1%94%91%e1%93%88%e1%90%af%e1%92%83/">Anishinaabe</a> peoples.</p>
+  <p><strong>Petition Town</strong> is a privacy-centred, results-oriented petition platform. We don't track visitors or store any information submitted by participants. Personalized messages are sent from participants' actual email account, to avoid getting caught in block filters and to better reach decision-makers' inboxes.</p>
+
+  <p>This site is developed by <a href="https://samnabi.com">Sam Nabi</a> on the Haldimand Tract, territory of the <a href="https://native-land.ca/maps/territories/attiwonderonk-neutral/">Chonnonton</a>, <a href="https://native-land.ca/maps/territories/haudenosauneega-confederacy/">Haudenosaunee</a>, and <a href="https://native-land.ca/maps/territories/anishinabek-%e1%90%8a%e1%93%82%e1%94%91%e1%93%88%e1%90%af%e1%92%83/">Anishinaabe</a> peoples.</p>
+
+  <p>If you want to start a new petition here, <a href="mailto:sam@samnabi.com?subject=New Petition Request">send me an email</a>.</p>
 </aside>
 
 </body>

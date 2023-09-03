@@ -9,8 +9,11 @@
   // Authenticate
   require_once('inc/auth.php');
 
-  // Set campaign
-  $c = getCampaign($_GET['campaign']);
+  if ($auth_slug) {
+    $c = getCampaign($auth_slug);
+  } else {
+    $c = getCampaign($_GET['campaign']);
+  }
 
   // Handle form submission
   if ($_POST['update_campaign']) {
@@ -32,8 +35,8 @@
     // Todo: size, type checks
     if ($_FILES['logo']['tmp_name']) {
       f::remove($campaign['logo']);
-      f::copy($_FILES['logo']['tmp_name'], $_FILES['logo']['name']);
-      $campaign['logo'] = $_FILES['logo']['name'];
+      f::copy($_FILES['logo']['tmp_name'], 'img'.DIRECTORY_SEPARATOR.$_FILES['logo']['name']);
+      $campaign['logo'] = 'img'.DIRECTORY_SEPARATOR.$_FILES['logo']['name'];
     } else if ($_POST['remove_logo'] == 'true') {
       f::remove($campaign['logo']);
       $campaign['logo'] = null;
@@ -55,6 +58,9 @@
 
     // Set campaign again
     $c = getCampaign($_GET['campaign']);
+    if ($c == null) {
+      $c = getCampaign($auth_slug);
+    }
   }
 
   // Handle new campaign
@@ -86,67 +92,75 @@
 </head>
 <body class="tpl--edit">
 
-  <aside>
-    <section>
-      <h2>Campaigns</h2>
-      <ul>
-        <?php $campaigns = array_diff(scandir('campaigns'), ['.', '..', '.gitkeep']); ?>
-        <?php foreach($campaigns as $campaign_file) { ?>
-          <?php $slug = str_replace('.yml', '', $campaign_file); ?>
-          <?php $campaign = getCampaign($slug) ?>
-          <li <?= $c['slug'] == $slug ? 'class="active"' : '' ?>>
-            <a href="/edit.php?campaign=<?= $slug ?>"><?= $campaign['title'] ?></a>
-          </li>
-        <?php } ?>
-      </ul>
-      <form action="edit.php" method="POST">
-        <details>
-          <summary>+ New Campaign</summary>
-          <label>
-            <span>Campaign title</span>
-            <input name="title" type="text">
-          </label>
-          <input type="hidden" name="action" value="new_campaign">
-          <button type="submit">Create</button>
-        </details>
-      </form>
-    </section>
-    <section>
-      <h2>Settings</h2>
-      <ul>
-        <li><a href="/account.php">Account settings</a></li>
-      </ul>
-    </section>
-  </aside>
+  <?php if (s::get('logged_in') == true) { ?>
+    <aside>
+      <section>
+        <h2>Campaigns</h2>
+        <ul>
+          <?php $campaigns = array_diff(scandir('campaigns'), ['.', '..', '.gitkeep']); ?>
+          <?php foreach($campaigns as $campaign_file) { ?>
+            <?php $slug = str_replace('.yml', '', $campaign_file); ?>
+            <?php $campaign = getCampaign($slug) ?>
+            <li <?= $c['slug'] == $slug ? 'class="active"' : '' ?>>
+              <a href="/edit.php?campaign=<?= $slug ?>"><?= $campaign['title'] ?></a>
+            </li>
+          <?php } ?>
+        </ul>
+        <form action="edit.php" method="POST">
+          <details>
+            <summary>+ New Campaign</summary>
+            <label>
+              <span>Campaign title</span>
+              <input name="title" type="text">
+            </label>
+            <input type="hidden" name="action" value="new_campaign">
+            <button type="submit">Create</button>
+          </details>
+        </form>
+      </section>
+      <section>
+        <h2>Settings</h2>
+        <ul>
+          <li><a href="/account.php">Account settings</a></li>
+        </ul>
+      </section>
+    </aside>
+  <?php } ?>
 
   <main>
-    <?php if ($c['slug']) { ?>
-      <form action="" method="POST" enctype="multipart/form-data">
-        
-        <fieldset>
-          <label>
-            <span class="help">Link to petition</span>
-            <input type="text" readonly value="<?= url() ?>/?campaign=<?= $c['slug'] ?>">
-          </label>
-        </fieldset>
 
-        <button type="submit">Save changes</button>
+    <?php if ($c['slug']) { ?>
+      <form action="<?= isset($_GET['auth']) ? 'edit.php?auth='.$_GET['auth'] : 'edit.php' ?>" method="POST" enctype="multipart/form-data">
+
+        <h1><?= $c['title'] ?></h1>
+
+        <div class="notice success">
+          <p>Public link to petition: <a href="<?= url() ?>/?campaign=<?= $c['slug'] ?>"><?= url() ?>/?campaign=<?= $c['slug'] ?></a></p>
+
+          <p style="word-wrap: break-word;">Private admin link (anyone with this link can edit the petition): <a href="<?= url() ?>/edit.php?auth=<?= urlencode(password::hash($c['slug'].'petitiontown')) ?>"><?= url() ?>/edit.php?auth=<?= urlencode(password::hash($c['slug'].'petitiontown')) ?></a></p>
+        </div>
+
+        <div class="top" style="background-color: white; padding: 0.5em; text-align: right; z-index: 1;">
+          <button type="submit">Save changes</button>
+        </div>
+
+        <hr />
 
         <fieldset>
           <legend>Organization</legend>
           <label>
             <span>Organization name</span>
-            <input name="organization" type="text" value="<?= $campaign['organization'] ?>">
+            <input name="organization" type="text" value="<?= $c['organization'] ?>">
           </label>
           <label>
             <span>Organization email</span>
             <span class="help">This email address will be <abbr title="Carbon copied">CC</abbr>ed on all messages by default</span>
-            <input name="email" type="email" value="<?= $campaign['email'] ?>">
+            <input name="email" type="email" value="<?= $c['email'] ?>">
           </label>
-          <?php if ($campaign['logo']) { ?>
+          <?php if ($c['logo']) { ?>
             <label>
               <span>Logo</span>
-              <img class="logo-preview" src="<?= $campaign['logo'] ?>" />
+              <img class="logo-preview" src="<?= $c['logo'] ?>" />
               <details>
                 <summary>Change logo</summary>
                 <input name="logo" type="file">
@@ -159,11 +173,13 @@
           <?php } else { ?>
             <label>
               <span>Logo</span>
-              <img class="logo-preview" src="<?= $campaign['logo'] ?>" />
+              <img class="logo-preview" src="<?= $c['logo'] ?>" />
               <input name="logo" type="file">
             </label>
           <?php } ?>
         </fieldset>
+
+        <hr />
 
         <fieldset>
           <legend>Campaign info</legend>
@@ -177,6 +193,9 @@
             <textarea name="info"><?= $c['info'] ?></textarea>
           </label>
         </fieldset>
+
+        <hr />
+
         <fieldset class="recipients">
           <legend>Recipients</legend>
 
@@ -207,6 +226,9 @@
 
           <button data-action="add_recipient" type="button">+ Add recipient</button>
         </fieldset>
+
+        <hr />
+
         <fieldset>
           <legend>Message content</legend>
           <p class="help">This is the email that will be sent to the recipients. People can modify this text to personalize the message.</p>
@@ -222,6 +244,9 @@
             <p>Participant name</p>
           </label>
         </fieldset>
+
+        <hr />
+
         <fieldset>
           <legend>Social media template</legend>
           <label>
@@ -234,6 +259,8 @@
             <div class="flex align-center gap--small">@ <input name="twitter" type="text" value="<?= $c['twitter'] ?>" placeholder="YourTwitterName"></div>
           </label>
         </fieldset>
+
+        <hr />
 
         <input type="hidden" name="update_campaign" value="<?= $c['slug'] ?>">
         <button type="submit">Save changes</button>

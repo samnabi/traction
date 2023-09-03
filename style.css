@@ -159,11 +159,21 @@ li + li {
   margin-right: 0;
 }
 
+.top {
+  position: sticky;
+  top: 0;
+}
+
 form,
 .social,
 .success {
   margin: 1em auto;
   padding: 0 1em;
+}
+
+.success a {
+  color: white;
+  text-decoration: underline;
 }
 
 @media (min-width: 60em) {
@@ -255,6 +265,11 @@ h1, h2 {
   margin: 0 auto;
 }
 
+.logo svg {
+  max-width: 5em;
+  fill: black;
+}
+
 @media (min-width: 60em) {
   .logo {
     padding-top: 1rem;
@@ -265,6 +280,8 @@ hr {
   background-color: rgba(0,0,0,0.1);
   height: 1px;
   border: 0;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
 .success form {

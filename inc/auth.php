@@ -16,11 +16,18 @@
     s::set('logged_in', true);
   }
 
-  // Todo: log out
-  //
-
   if (s::get('logged_in') == true) {
     // We're in
+  } else if (isset($_GET['auth'])) {
+    $campaigns = array_diff(scandir('campaigns'), ['.', '..', '.gitkeep']);
+    $auth_slug = '';
+    foreach ($campaigns as $campaign_file) {
+      $slug = str_replace('.yml', '', $campaign_file);
+      if (password::match($slug.'petitiontown', urldecode($_GET['auth']))) {
+        $auth_slug = $slug;
+      }
+    }
+    if ($auth_slug == '') die;
   } else {
     // Need to log in
     if ($settings['password'] == null) {

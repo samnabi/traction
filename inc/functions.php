@@ -22,15 +22,8 @@ function getCampaign($slug = '') {
     // File exists
     $campaign = yaml::read($campaign_path);
   } else {
-    // Otherwise, use the first available campaign
-    $campaigns = dir::read($campaigns_directory, ['.', '..', '.gitkeep']);
-    foreach ($campaigns as $file) {
-      $filename_parts = str::split($file, '.');
-      $slug = $filename_parts[0];
-      $campaign_path = $campaigns_directory.DIRECTORY_SEPARATOR.$file;
-      $campaign = yaml::read($campaign_path);
-      break;
-    }
+    // Otherwise, return null
+    return null;
   }
 
   // Add some metadata to the return value
