@@ -116,6 +116,28 @@
       </script>
     </p>
 
+    <details style="margin-left: 1em; margin-right: 1em;">
+      <summary>Not working?</summary>
+
+      <h3>If your email app doesn't open automatically, try creating a new email manually and copying the message below.</h3>
+
+      <h4>To</h4>
+      
+      <p style="font-size: 0.8em;"><?= implode('; ', $_POST['recipients']) ?></p>
+
+      <h4>Subject</h4>
+      <p style="font-size: 0.8em;"><?= $_POST['subject'] ?></p>
+      
+      <h4>Message</h4>
+      <p style="font-size: 0.8em; white-space: pre-wrap;"><?= $_POST['message'] ?>
+
+<?= $_POST['address'] ?>
+<?= $_POST['name'] ?>
+</p>
+
+      <hr />
+    </details>
+
     <div class="notice success">
 
       <p><strong>Almost done! Redirecting to your email app...</strong></p>
